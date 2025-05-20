@@ -81,18 +81,18 @@
 <body class="min-h-screen flex flex-col text-gray-800">
 <!-- Navbar -->
     <nav class="bg-blue-900 shadow-lg p-4 sticky top-0 z-50">
-        <div class="container mx-auto flex items-center justify-between">
+        <div class="container mx-auto flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
             <div class="flex items-center space-x-4">
-                <img src="{{ asset('images/logo.png') }}" alt="TimeTune Logo" class="h-12 w-auto transition-transform hover:scale-105">
-                <span class="text-2xl font-bold text-white">TimeTune</span>
+                <img src="{{ asset('images/logo.png') }}" alt="TimeTune Logo" class="h-10 w-auto transition-transform hover:scale-105">
+                <span class="text-xl sm:text-2xl font-bold text-white">TimeTune</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <span class="tooltip bg-blue-600 text-white font-medium px-4 py-2 rounded-full text-sm shadow-md" data-tooltip="Email: {{ Auth::user()->email }}">
+            <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                <span class="tooltip bg-blue-600 text-white font-medium px-3 py-2 rounded-full text-xs sm:text-sm shadow-md text-center" data-tooltip="Email: {{ Auth::user()->email }}">
                     Login sebagai: {{ Auth::user()->name }}
                 </span>
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST" class="w-full sm:w-auto">
                     @csrf
-                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition-colors duration-200 btn-pulse">
+                    <button type="submit" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition-colors duration-200 btn-pulse text-sm sm:text-base">
                         Logout
                     </button>
                 </form>
@@ -104,14 +104,14 @@
 <!-- Landing Page -->
     <section id="landing" class="min-h-screen flex flex-col justify-center items-center text-center relative gradient-bg">
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div class="relative z-10 bg-white bg-opacity-90 p-10 md:p-16 rounded-2xl shadow-2xl w-11/12 md:w-3/4 lg:w-1/2 fade-in">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-blue-900 tracking-tight">Selamat Datang di TimeTune</h1>
-            <p class="text-lg md:text-xl mb-8 text-gray-700 leading-relaxed">Atur jadwal Anda dengan mudah dan efisien bersama TimeTune!</p>
-            <div class="flex justify-center space-x-6">
-                <button class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 btn-pulse" onclick="scrollToForm()">
+        <div class="relative z-10 bg-white bg-opacity-90 p-6 sm:p-10 md:p-16 rounded-2xl shadow-2xl w-11/12 max-w-md sm:max-w-3/4 lg:max-w-1/2 fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 sm:mb-6 text-blue-900 tracking-tight">Selamat Datang di TimeTune</h1>
+            <p class="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-gray-700 leading-relaxed">Atur jadwal Anda dengan mudah dan efisien bersama TimeTune!</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <button class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 sm:py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg transition-transform hover:scale-105 btn-pulse" onclick="scrollToForm()">
                     Tambah Jadwal
                 </button>
-                <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 btn-pulse" onclick="scrollToList()">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 sm:py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg transition-transform hover:scale-105 btn-pulse" onclick="scrollToList()">
                     List Jadwal
                 </button>
             </div>
@@ -120,41 +120,58 @@
 <!-- Landing Page -->
 
 <!-- List Jadwal -->
-<section id="list-section" class="py-12 min-h-screen flex items-center bg-gradient-to-r from-blue-800 to-cyan-500">
+<section id="list-section" class="py-8 sm:py-12 min-h-screen flex items-center bg-gradient-to-r from-blue-800 to-cyan-500">
     <div class="container mx-auto px-4 flex flex-col items-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-white fade-in">Daftar Jadwal</h2>
-        <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white fade-in">Daftar Jadwal</h2>
+        <div class="w-full max-w-3xl sm:max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden">
             @if ($jadwal->count())
-                <table class="w-full text-center">
-                    <thead class="bg-blue-900 text-white">
-                        <tr>
-                            <th class="py-4 px-6">No</th>
-                            <th class="py-4 px-6">Nama Jadwal</th>
-                            <th class="py-4 px-6">Tanggal</th>
-                            <th class="py-4 px-6">Jam</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $no = 1; @endphp
-                        @foreach ($jadwal as $date)
-                            <tr class="table-row-hover border-b border-gray-200">
-                                <td class="py-4 px-6">{{ $no++ }}</td>
-                                <td class="py-4 px-6 text-capitalize">{{ $date->nama_jadwal }}</td>
-                                <td class="py-4 px-6">{{ $date->tanggal }}</td>
-                                <td class="py-4 px-6">{{ $date->jam }}</td>
+                <!-- Tabel untuk desktop -->
+                <div class="hidden sm:block">
+                    <table class="w-full text-center">
+                        <thead class="bg-blue-900 text-white">
+                            <tr>
+                                <th class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base">No</th>
+                                <th class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base">Nama Jadwal</th>
+                                <th class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base">Tanggal</th>
+                                <th class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base">Jam</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @php $no = 1; @endphp
+                            @foreach ($jadwal as $date)
+                                <tr class="table-row-hover border-b border-gray-200">
+                                    <td class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base">{{ $no++ }}</td>
+                                    <td class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base text-capitalize">{{ $date->nama_jadwal }}</td>
+                                    <td class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base">{{ $date->tanggal }}</td>
+                                    <td class="py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base">{{ $date->jam }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Kartu untuk mobile -->
+                <div class="block sm:hidden space-y-4 p-4">
+                    @php $no = 1; @endphp
+                    @foreach ($jadwal as $date)
+                        <div class="table-row-hover p-4 rounded-lg shadow-md bg-gray-50">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-blue-900 text-sm">No: {{ $no++ }}</span>
+                            </div>
+                            <p class="text-sm"><span class="font-semibold">Nama Jadwal:</span> {{ $date->nama_jadwal }}</p>
+                            <p class="text-sm"><span class="font-semibold">Tanggal:</span> {{ $date->tanggal }}</p>
+                            <p class="text-sm"><span class="font-semibold">Jam:</span> {{ $date->jam }}</p>
+                        </div>
+                    @endforeach
+                </div>
             @else
-                <p class="text-center text-gray-800 py-8 text-lg">Belum ada jadwal yang tersedia.</p>
+                <p class="text-center text-gray-800 py-6 sm:py-8 text-base sm:text-lg">Belum ada jadwal yang tersedia.</p>
             @endif
         </div>
-        <div class="flex justify-center space-x-4 mt-6">
-            <button id="view-all-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-full transition-colors duration-200 btn-pulse">
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-4 sm:mt-6">
+            <button id="view-all-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 sm:px-6 rounded-full transition-colors duration-200 btn-pulse text-sm sm:text-base">
                 Lihat Semua
             </button>
-            <a href="{{ route('jadwal.index') }}" id="detail-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition-colors duration-200 btn-pulse hidden">
+            <a href="{{ route('jadwal.index') }}" id="detail-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 sm:px-6 rounded-full transition-colors duration-200 btn-pulse hidden text-sm sm:text-base">
                 Detail Jadwal
             </a>
         </div>
@@ -163,29 +180,29 @@
 <!-- List Jadwal -->
 
 <!-- Tambah Jadwal -->
-<section id="form-section" class="py-12 min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-blue-700 to-blue-400">
+<section id="form-section" class="py-8 sm:py-12 min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-blue-700 to-blue-400">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 text-white fade-in">Tambah Jadwal</h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 text-white fade-in">Tambah Jadwal</h2>
         @if ($errors->any())
-            <div class="mb-6 p-4 bg-amber-100 text-amber-800 rounded-lg shadow-md w-full max-w-lg mx-auto">
-                <ul>
+            <div class="mb-4 sm:mb-6 p-3 sm:p-4 bg-amber-100 text-amber-800 rounded-lg shadow-md w-full max-w-md sm:max-w-lg mx-auto">
+                <ul class="text-sm sm:text-base">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         @endif
-        <form id="schedule-form" class="w-full max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-lg" action="{{ route('jadwal.store') }}" method="POST">
+        <form id="schedule-form" class="w-full max-w-md sm:max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-lg" action="{{ route('jadwal.store') }}" method="POST">
             @csrf
             <!-- Nama Jadwal -->
-            <div class="mb-5">
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Jadwal</label>
-                <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" id="name" name="nama_jadwal" required>
+            <div class="mb-4 sm:mb-5">
+                <label for="name" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Nama Jadwal</label>
+                <input type="text" class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base" id="name" name="nama_jadwal" required>
             </div>
             <!-- Kategori -->
-            <div class="mb-5">
-                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
-                <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" id="category" name="kategori" onchange="toggleDeadline()">
+            <div class="mb-4 sm:mb-5">
+                <label for="category" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                <select class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base" id="category" name="kategori" onchange="toggleDeadline()">
                     <option value="Acara">Acara</option>
                     <option value="Pekerjaan">Pekerjaan</option>
                     <option value="Istirahat">Istirahat/Healing</option>
@@ -193,36 +210,36 @@
                 </select>
             </div>
             <!-- Tanggal -->
-            <div class="mb-5">
-                <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal</label>
-                <input type="date" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" id="date" name="tanggal" required>
+            <div class="mb-4 sm:mb-5">
+                <label for="date" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Tanggal</label>
+                <input type="date" class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base" id="date" name="tanggal" required>
             </div>
             <!-- Deadline (Tugas) -->
-            <div class="mb-5 hidden" id="deadline-field">
-                <label for="deadline" class="block text-sm font-medium text-gray-700 mb-2">Deadline</label>
-                <input type="date" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" id="deadline" name="deadline">
+            <div class="mb-4 sm:mb-5 hidden" id="deadline-field">
+                <label for="deadline" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Deadline</label>
+                <input type="date" class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base" id="deadline" name="deadline">
             </div>
             <!-- Jam -->
-            <div class="mb-5">
-                <label for="jam" class="block text-sm font-medium text-gray-700 mb-2">Jam</label>
-                <input type="time" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" id="jam" name="jam" required>
+            <div class="mb-4 sm:mb-5">
+                <label for="jam" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Jam</label>
+                <input type="time" class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base" id="jam" name="jam" required>
             </div>
             <!-- Prioritas -->
-            <div class="mb-5">
-                <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">Prioritas</label>
-                <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" id="priority" name="prioritas">
+            <div class="mb-4 sm:mb-5">
+                <label for="priority" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Prioritas</label>
+                <select class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base" id="priority" name="prioritas">
                     <option value="Tinggi">Tinggi</option>
                     <option value="Sedang">Sedang</option>
                     <option value="Rendah">Rendah</option>
                 </select>
             </div>
             <!-- Deskripsi -->
-            <div class="mb-5">
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
-                <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" id="description" name="deskripsi" rows="4"></textarea>
+            <div class="mb-4 sm:mb-5">
+                <label for="description" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                <textarea class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base" id="description" name="deskripsi" rows="3 sm:rows-4"></textarea>
             </div>
             <!-- Button -->
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-4 rounded-full transition-colors duration-200 btn-pulse">
+            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 sm:py-3 px-4 rounded-full transition-colors duration-200 btn-pulse text-sm sm:text-base">
                 Simpan
             </button>
         </form>
@@ -231,25 +248,25 @@
 <!-- Tambah Jadwal -->
 
 <!-- Footer -->
-<footer class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-700 text-white py-10">
+<footer class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-700 text-white py-6 sm:py-10">
     <div class="container mx-auto px-4 text-center">
-        <div class="flex justify-center space-x-8 mb-6">
+        <div class="flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-8 mb-4 sm:mb-6">
             <a href="#" class="text-white hover:text-cyan-300 transition-colors duration-200 icon-hover">
-                <i class="fab fa-twitter fa-2x"></i>
+                <i class="fab fa-twitter fa-lg sm:fa-2x"></i>
             </a>
             <a href="#" class="text-white hover:text-cyan-300 transition-colors duration-200 icon-hover">
-                <i class="fab fa-instagram fa-2x"></i>
+                <i class="fab fa-instagram fa-lg sm:fa-2x"></i>
             </a>
             <a href="#" class="text-white hover:text-cyan-300 transition-colors duration-200 icon-hover">
-                <i class="fab fa-linkedin fa-2x"></i>
+                <i class="fab fa-linkedin fa-lg sm:fa-2x"></i>
             </a>
         </div>
-        <div class="flex justify-center space-x-6 mb-4">
-            <a href="{{ route('home') }}" class="text-white hover:text-cyan-300 transition-colors duration-200">Beranda</a>
-            <a href="{{ route('jadwal.index') }}" class="text-white hover:text-cyan-300 transition-colors duration-200">Daftar Jadwal</a>
-            <a href="#" class="text-white hover:text-cyan-300 transition-colors duration-200">Tentang Kami</a>
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-3 sm:mb-4">
+            <a href="{{ route('home') }}" class="text-white hover:text-cyan-300 transition-colors duration-200 text-sm sm:text-base">Beranda</a>
+            <a href="{{ route('jadwal.index') }}" class="text-white hover:text-cyan-300 transition-colors duration-200 text-sm sm:text-base">Daftar Jadwal</a>
+            <a href="#" class="text-white hover:text-cyan-300 transition-colors duration-200 text-sm sm:text-base">Tentang Kami</a>
         </div>
-        <p class="text-sm mb-2">© 2025 TimeTune. All rights reserved.</p>
+        <p class="text-xs sm:text-sm mb-2">© 2025 TimeTune. All rights reserved.</p>
         <p class="text-xs">Dibuat dengan <i class="fas fa-heart text-amber-400"></i> untuk efisiensi waktu Anda</p>
     </div>
 </footer>
@@ -305,13 +322,16 @@
     // Tampilkan 5 jadwal pertama dan sembunyikan sisanya
     document.addEventListener("DOMContentLoaded", function() {
         const tableBody = document.querySelector("#list-section tbody");
+        const mobileCards = document.querySelector("#list-section .space-y-4");
         const rows = tableBody ? tableBody.querySelectorAll("tr") : [];
+        const cards = mobileCards ? mobileCards.querySelectorAll(".table-row-hover") : [];
         const viewAllBtn = document.getElementById("view-all-btn");
         const detailBtn = document.getElementById("detail-btn");
 
         // Tampilkan hanya 5 jadwal awal
         for (let i = 5; i < rows.length; i++) {
-            rows[i].style.display = "none";
+            if (rows[i]) rows[i].style.display = "none";
+            if (cards[i]) cards[i].style.display = "none";
         }
 
         let isExpanded = false;
@@ -321,9 +341,11 @@
                 // Tampilkan maksimal 9 jadwal
                 for (let i = 0; i < rows.length; i++) {
                     if (i < 9) {
-                        rows[i].style.display = "";
+                        if (rows[i]) rows[i].style.display = "";
+                        if (cards[i]) cards[i].style.display = "";
                     } else {
-                        rows[i].style.display = "none";
+                        if (rows[i]) rows[i].style.display = "none";
+                        if (cards[i]) cards[i].style.display = "none";
                     }
                 }
                 viewAllBtn.textContent = "Sembunyikan";
@@ -332,9 +354,11 @@
                 // Kembali ke 5 jadwal awal
                 for (let i = 0; i < rows.length; i++) {
                     if (i < 5) {
-                        rows[i].style.display = "";
+                        if (rows[i]) rows[i].style.display = "";
+                        if (cards[i]) cards[i].style.display = "";
                     } else {
-                        rows[i].style.display = "none";
+                        if (rows[i]) rows[i].style.display = "none";
+                        if (cards[i]) cards[i].style.display = "none";
                     }
                 }
                 viewAllBtn.textContent = "Lihat Semua";
